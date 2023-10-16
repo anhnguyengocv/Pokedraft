@@ -2,7 +2,7 @@ let pokemonList = [
     {
         name: 'Pichu',
         height: 0.2,
-        types: 'electric'
+        types: ['electric']
     },
 
     {
