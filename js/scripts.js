@@ -16,10 +16,10 @@ let pokemonList = [
 ];
 
 for (let i=0; i < pokemonList.length; i++) {
-    text = " " + pokemonList[i].name + " " + "(" + "height: " + pokemonList[i].height + ")";
+    text = "<p>" + pokemonList[i].name + " " + "(" + "height: " + pokemonList[i].height + ")";
     document.write(text);
     if (pokemonList[i].height > 1.0) {
-        document.write( " - " + pokemonList[i].name + " is so big!")
+        document.write( " - " + "Wow, that's big!")
     }
 }
 
