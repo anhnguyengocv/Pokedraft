@@ -31,15 +31,14 @@ let pokemonRepository = (function() {
   
   
     function displayPokemonList() {
-        let pokemonList = pokemonRepository.getAll();
-        let pokemonListElement = document.getElementById('pokemon-list');
+      let pokemonList = pokemonRepository.getAll();
   
-        pokemonList.forEach(function(pokemon) {
-            document.write("<p>" + pokemon.name + " (" + "height: " + pokemon.height + ")"); "</p>"
-            if (pokemon.height > 1.0) {
-                document.write(" - Wow, that's big!");
-            }
-        })();
+      pokemonList.forEach(function(pokemon) {
+        document.write("<p>" + pokemon.name + " (" + "height: " + pokemon.height + ")"); "</p>"
+        if (pokemon.height > 1.0) {
+            document.write(" - Wow, that's big!");
+        }
+      })();
     }
   
-  displayPokemonList();
+displayPokemonList();
