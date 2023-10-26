@@ -73,7 +73,7 @@ function displayPokemonList() {
     if (pokemon.height > 1.0) {
         document.write(" - Wow, that's big!");
     }
-  })();
+  });
 }
   
 displayPokemonList();
