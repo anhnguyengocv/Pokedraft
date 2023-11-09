@@ -65,16 +65,17 @@ let pokemonRepository = (function() {
       });
     }
 
+    function showDetails(pokemon) {
+      loadDetails(pokemon).then(function () {
+        console.log(pokemon);
+      });
+    }
+
     //add an event listener to the button
     function addClickListenerToButton(button, pokemon) {
       button.addEventListener('click', function() {
         showDetails(pokemon);
       });
-    }
-
-    //display the details when a button is clicked
-    function showDetails(pokemon) {
-      console.log('Pokemon Details:', pokemon);
     }
 
     //Return the functinos and data you want to be accessible
