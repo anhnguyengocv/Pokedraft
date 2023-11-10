@@ -90,21 +90,21 @@ let pokemonRepository = (function() {
 })();
   
 //Example display
-let foundPokemon = pokemonRepository.findByName('Pikachu');
-if (foundPokemon.length > 0) {
-  console.log('Found Pokemon: ', foundPokemon);
-} else {
-  console.log('Pokemon not found.');
-}
+// let foundPokemon = pokemonRepository.findByName('Pikachu');
+// if (foundPokemon.length > 0) {
+//   console.log('Found Pokemon: ', foundPokemon);
+// } else {
+//   console.log('Pokemon not found.');
+// }
 
-console.log(pokemonRepository.getAll());
-pokemonRepository.add(
-  {
-    name: 'Pikachu',
-    height: 0.3,
-    types: ["electric"]
-  }
-);
+// console.log(pokemonRepository.getAll());
+// pokemonRepository.add(
+//   {
+//     name: 'Pikachu',
+//     height: 0.3,
+//     types: ["electric"]
+//   }
+// );
 
 // console.log(pokemonRepository.getAll());
 
