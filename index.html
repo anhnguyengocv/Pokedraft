@@ -5,14 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Pokedraft</title>
         <link href="./css/styles.css" rel="stylesheet" type="text/css" />
+        <script src="./js/promise-polyfill.js"></script>
+        <script src="./js/fetch-polyfill.js"></script>
+        <script src="./js/scripts.js"></script>
     </head>
 
     <body>
         <ul class = "pokemon-list"></ul>
-        <strong>
-            <script src="./js/promise-polyfill.js"></script>
-            <script src="./js/fetch-polyfill.js"></script>
-            <script src="./js/scripts.js"></script>
-        </strong>
+        
+        <div id="pokemon-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="modal-pokemon-name"></h2>
+                <p id="modal-pokemon-height"></p>
+                <img id="modal-pokemon-image" src="" alt="Pokemon Img">
+            </div>
+        </div>
     </body>
 </html>
