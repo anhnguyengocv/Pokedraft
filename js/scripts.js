@@ -1,6 +1,6 @@
 let pokemonRepository = (function() {
     let pokemonList = [];
-    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=50';
+    let apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=20`;
   
     console.log(pokemonList);
 
@@ -22,6 +22,12 @@ let pokemonRepository = (function() {
     function findByName(name) {
       return pokemonList.filter(function(findPoke) {
         return findPoke.name === name;
+      });
+    }
+
+    function addClickListenerToButton(button, pokemon) {
+      button.addEventListener('click', function() {
+        showDetails(pokemon);
       });
     }
 
@@ -60,21 +66,77 @@ let pokemonRepository = (function() {
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
         item.types = details.types;
+        item.id = details.id;
+        addListItem(item);
       }).catch(function (e) {
         console.error(e);
       });
     }
 
-    function showDetails(pokemon) {
-      loadDetails(pokemon).then(function () {
-        console.log(pokemon);
-      });
+    function getPokemonImageUrl(pokemonId) {
+      let apiUrl = 'https://pokeapi.co/api/v2/pokemon/' + pokemonId + '/';
+        return fetch(apiUrl)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not working');
+            }
+            return response.json();
+          })
+          .then(data => {
+            return data.sprites.front_default; //use data to construct the img url
+          })
+          .catch(error => {
+            console.error('Error fetching Pokemon image: ', error);
+            return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'; //return a default img if error 
+          });
     }
 
-    //add an event listener to the button
-    function addClickListenerToButton(button, pokemon) {
-      button.addEventListener('click', function() {
-        showDetails(pokemon);
+    function showDetails(pokemon) {
+      //display modal
+      let modal = document.getElementById('pokemon-modal');
+      modal.style.display = 'block';
+
+      //populate modal with pokemon details
+      let modalPokemonName = document.getElementById('modal-pokemon-name');
+      let modalPokemonHeight = document.getElementById('modal-pokemon-height');
+      let modalPokemonImage = document.getElementById('modal-pokemon-image');
+
+      modalPokemonName.textContent = 'Name: ' + pokemon.name;
+      modalPokemonHeight.textContent = 'Height: ' + pokemon.height;
+
+      //use function to get imgUrl for pokemon
+      getPokemonImageUrl(pokemon.id)
+        .then(imgUrl => {
+          modalPokemonImage.src = imgUrl; //set img src
+        })
+        .catch(error => {
+          console.error('Error fetching Pokemon image: ', error);
+          modalPokemonImage.src = 'default_image_url.png'; //provide a dfault img if the error occurs
+        });
+
+
+      //add event listener to close modal
+      let closeModalButton = document.querySelector('.close-modal');
+      closeModalButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      //close modal when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      //close modal when using keyboard
+      window.addEventListener('keydown', function(event) {
+        if(event.key === 'Escape') {
+          modal.style.display = 'none';
+        }
+      });
+
+      loadDetails(pokemon).then(function () {
+        console.log(pokemon);
       });
     }
 
@@ -85,28 +147,10 @@ let pokemonRepository = (function() {
       findByName: findByName,
       addListItem: addListItem,
       loadList: loadList,
-      loadDetails: loadDetails
+      loadDetails: loadDetails,
+      addClickListenerToButton: addClickListenerToButton
     };
 })();
-  
-//Example display
-// let foundPokemon = pokemonRepository.findByName('Pikachu');
-// if (foundPokemon.length > 0) {
-//   console.log('Found Pokemon: ', foundPokemon);
-// } else {
-//   console.log('Pokemon not found.');
-// }
-
-// console.log(pokemonRepository.getAll());
-// pokemonRepository.add(
-//   {
-//     name: 'Pikachu',
-//     height: 0.3,
-//     types: ["electric"]
-//   }
-// );
-
-// console.log(pokemonRepository.getAll());
 
 pokemonRepository.loadList().then(function() {
   pokemonRepository.getAll().forEach(function (pokemon) {
