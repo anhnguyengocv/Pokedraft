@@ -91,56 +91,22 @@ let pokemonRepository = (function() {
           });
     }
 
+  (function() {
+
     function showDetails(pokemon) {
-      //display modal
-      let modal = document.getElementById('pokemon-modal');
-      modal.style.display = 'block';
-
-      //populate modal with pokemon details
-      let modalPokemonName = document.getElementById('modal-pokemon-name');
-      let modalPokemonHeight = document.getElementById('modal-pokemon-height');
-      let modalPokemonImage = document.getElementById('modal-pokemon-image');
-
-      modalPokemonName.textContent = 'Name: ' + pokemon.name;
-      modalPokemonHeight.textContent = 'Height: ' + pokemon.height;
-
-      //use function to get imgUrl for pokemon
-      getPokemonImageUrl(pokemon.id)
-        .then(imgUrl => {
-          modalPokemonImage.src = imgUrl; //set img src
-        })
-        .catch(error => {
-          console.error('Error fetching Pokemon image: ', error);
-          modalPokemonImage.src = 'default_image_url.png'; //provide a dfault img if the error occurs
-        });
-
-
-      //add event listener to close modal
-      let closeModalButton = document.querySelector('.close-modal');
-      closeModalButton.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-
-      //close modal when clicking outside
-      window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-      });
-
-      //close modal when using keyboard
-      window.addEventListener('keydown', function(event) {
-        if(event.key === 'Escape') {
-          modal.style.display = 'none';
-        }
-      });
-
       loadDetails(pokemon).then(function () {
         console.log(pokemon);
       });
     }
 
-    //Return the functinos and data you want to be accessible
+    //add an event listener to the button
+    function addClickListenerToButton(button, pokemon) {
+      button.addEventListener('click', function() {
+        showDetails(pokemon);
+      });
+    }
+
+    //Return the functions and data you want to be accessible
     return {
       add: add,
       getAll: getAll,
@@ -151,6 +117,25 @@ let pokemonRepository = (function() {
       addClickListenerToButton: addClickListenerToButton
     };
 })();
+  
+//Example display
+// let foundPokemon = pokemonRepository.findByName('Pikachu');
+// if (foundPokemon.length > 0) {
+//   console.log('Found Pokemon: ', foundPokemon);
+// } else {
+//   console.log('Pokemon not found.');
+// }
+
+// console.log(pokemonRepository.getAll());
+// pokemonRepository.add(
+//   {
+//     name: 'Pikachu',
+//     height: 0.3,
+//     types: ["electric"]
+//   }
+// );
+
+// console.log(pokemonRepository.getAll());
 
 pokemonRepository.loadList().then(function() {
   pokemonRepository.getAll().forEach(function (pokemon) {
