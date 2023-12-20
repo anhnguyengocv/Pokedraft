@@ -45,7 +45,8 @@ let pokemonRepository = (function() {
   }
 
   function loadList() {
-    return fetch(apiUrl).then(function (response) {
+    return fetch(apiUrl)
+    .then(function (response) {
       return response.json();
     }).then(function (json) {
       json.results.forEach(function (item) {
@@ -62,16 +63,19 @@ let pokemonRepository = (function() {
 
   function loadDetails(item) {
     let url = item.detailsUrl;
-    return fetch(url).then(function (response) {
+    return fetch(url)
+    .then(function (response) {
       return response.json();
-    }).then(function (details) {
+    })
+    .then(function (details) {
       item.imageUrlFront = details.sprites.front_default;
       item.imageUrlBack = details.sprites.back_default;
       item.height = details.height;
       item.types = details.types.map(type => type.type.name);
       item.abilities = details.abilities.map(ability => ability.ability.name);
       return item;
-    }).catch(function (e) {
+    })
+    .catch(function (e) {
       console.error(e);
     });
   }
@@ -95,9 +99,18 @@ let pokemonRepository = (function() {
 
   function showModal(item) {
     let modal = document.getElementById('pokemon-modal');
+      if (!modal) {
+        console.error("Modal element not fofund.");
+        return;
+      }
+
     let modalPokemonName = document.getElementById('modal-pokemon-name');
     let modalPokemonHeight = document.getElementById('modal-pokemon-height');
     let modalPokemonImage = document.getElementById('modal-pokemon-image');
+      if (!modalPokemonImage) {
+        console.error("Modal Pokemon Image element not found.");
+        return;
+      }
     let modalBody = $(".modal-body");
     let modalTitle = $(".modal-title");
     let modalHeader = $(".modal-header");
@@ -125,10 +138,19 @@ let pokemonRepository = (function() {
 
     modal.style.display = "block";
 
-    let closeModalButton = document.querySelector('.close-modal');
-      closeModalButton.addEventListener('click', function() {
-        modal.style.display = 'none';
+    getPokemonImageUrl(item.detailsUrl)
+    .then((imgUrl) => {
+        modalPokemonImage.setAttribute("src", imgUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching Pokemon image: ', error);
+        if (modalPokemonImage) {
+          modalPokemonImage.src = 'default_image_url.png';
+        }
       });
+
+    let closeModalButton = document.querySelector('.close-modal');
+      console.log("Close Modal Button:", closeModalButton);
 
     window.addEventListener('click', function(event) {
       if (event.target === modal) {
@@ -143,14 +165,6 @@ let pokemonRepository = (function() {
     });
   }
 
-  getPokemonImageUrl(pokemon.detailsUrl)
-    .then((imgUrl) => {
-        modalPokemonImage.setAttribute("src", imgUrl);
-      })
-      .catch(error => {
-        console.error('Error fetching Pokemon image: ', error);
-        modalPokemonImage.src = 'default_image_url.png';
-      });
 
   return {
     add: add,
@@ -159,7 +173,7 @@ let pokemonRepository = (function() {
     addListItem: addListItem,
     loadList: loadList,
     loadDetails: loadDetails,
-    addClickListenerToButton: addClickListenerToButton
+    addClickListenerToButton: showDetails
   }
 })();
 
