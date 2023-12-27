@@ -119,12 +119,12 @@ let pokemonRepository = (function() {
     modalBody.empty();
 
     let nameElement = $("<h1>" + item.name + "</h1>");
-    let imageElementFront = $('<img class="modal-image" id="modal-pokemon-image style="width:50%">');
+    let imageElementFront = $('<img class="modal-image" id="modal-pokemon-image" style="width:50%">');
     imageElementFront.attr("src", item.imageUrlFront);
-    let imageElementBack = $('<img class="modal-image" id="modal-pokemon-image style="width:50%">');
+    let imageElementBack = $('<img class="modal-image" id="modal-pokemon-image" style="width:50%">');
     imageElementBack.attr("src", item.imageUrlBack);
     let heightElement = $("<p>" + "Height: " + item.height + "</p>");
-    let weightElement = $("<p>" + "Weight: " + item.weight + "</p>");
+
     let typesElement = $("<p>" + "Types: " + item.types + "</p>");
     let abilitiesElement = $("<p>" + "Abilities: " + item.abilities + "</p>");
 
@@ -132,11 +132,10 @@ let pokemonRepository = (function() {
     modalBody.append(imageElementFront);
     modalBody.append(imageElementBack);
     modalBody.append(heightElement);
-    modalBody.append(weightElement);
     modalBody.append(typesElement);
     modalBody.append(abilitiesElement);
 
-    //modal.style.display = "block";
+    modal.style.display = "block";
 
     $(modal).modal('show');
 
@@ -150,31 +149,31 @@ let pokemonRepository = (function() {
           modalPokemonImage.src = 'default_image_url.png';
         }
       });
-
-    $(modal).on('shown.bs.modal', function () {
-    let closeModalButton = document.querySelector('.close-modal');
-      console.log("Close Modal Button:", closeModalButton);
-
-      if (closeModalButton) {
-        closeModalButton.addEventListener('click', function () {
-          modal.style.display = 'none';
-        });
-      }
-    });
-
-    window.addEventListener('click', function(event) {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    window.addEventListener('keydown', function(event) {
-      if(event.key === 'Escape') {
-        modal.style.display = 'none';
-      }
-    });
   }
 
+  //   $(modal).on('shown.bs.modal', function () {
+  //   let closeModalButton = document.querySelector('.close-modal');
+  //     console.log("Close Modal Button:", closeModalButton);
+
+  //     if (closeModalButton) {
+  //       closeModalButton.addEventListener('click', function () {
+  //         modal.style.display = 'none';
+  //       });
+  //     }
+  //   });
+
+  //   window.addEventListener('click', function(event) {
+  //     if (event.target === modal) {
+  //       modal.style.display = 'none';
+  //     }
+  //   });
+
+  //   window.addEventListener('keydown', function(event) {
+  //     if(event.key === 'Escape') {
+  //       modal.style.display = 'none';
+  //     }
+  //   });
+  // }
 
   return {
     add: add,
