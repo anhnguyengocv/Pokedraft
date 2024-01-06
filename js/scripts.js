@@ -1,6 +1,6 @@
 let pokemonRepository = (function() {
   let pokemonList = [];
-  let apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=100`;
+  let apiUrl = `https://pokeapi.co/api/v2/pokemon/?limit=200`;
 
   console.log(pokemonList);
 
@@ -107,10 +107,6 @@ let pokemonRepository = (function() {
     let modalPokemonName = document.getElementById('modal-pokemon-name');
     let modalPokemonHeight = document.getElementById('modal-pokemon-height');
     let modalPokemonImage = document.getElementById('modal-pokemon-image');
-      // if (!modalPokemonImage) {
-      //   console.error("Modal Pokemon Image element not found.");
-      //   return;
-      // }
     let modalBody = $(".modal-body");
     let modalTitle = $(".modal-title");
     let modalHeader = $(".modal-header");
@@ -151,30 +147,6 @@ let pokemonRepository = (function() {
       });
   }
 
-  //   $(modal).on('shown.bs.modal', function () {
-  //   let closeModalButton = document.querySelector('.close-modal');
-  //     console.log("Close Modal Button:", closeModalButton);
-
-  //     if (closeModalButton) {
-  //       closeModalButton.addEventListener('click', function () {
-  //         modal.style.display = 'none';
-  //       });
-  //     }
-  //   });
-
-  //   window.addEventListener('click', function(event) {
-  //     if (event.target === modal) {
-  //       modal.style.display = 'none';
-  //     }
-  //   });
-
-  //   window.addEventListener('keydown', function(event) {
-  //     if(event.key === 'Escape') {
-  //       modal.style.display = 'none';
-  //     }
-  //   });
-  // }
-
   return {
     add: add,
     getAll: getAll,
@@ -191,3 +163,19 @@ pokemonRepository.loadList().then(function() {
     pokemonRepository.addListItem(pokemon);
   });
 });
+
+let form = document.querySelector('.form-inline')
+    , input = document.createElement('input');
+  function searchFunction() {
+      let pokemon, item, modalBody, modalTitle, listPokemon;
+      for (modalBody = 0,
+      pokemon = input.value.toUpperCase(),
+      item = document.getElementsByClassName('list-group-item'); modalBody < item.length; modalBody++)
+          (modalTitle = (listPokemon = item[modalBody].getElementsByClassName('button-class')[0]).innerText).toUpperCase().indexOf(pokemon) > -1 ? item[modalBody].style.display = '' : item[modalBody].style.display = 'none'
+  }
+  input.classList.add('form-control'),
+  input.setAttribute('type', 'text'),
+  input.setAttribute('placeholder', 'Search'),
+  input.setAttribute('aria-label', 'Search'),
+  form.appendChild(input),
+  input.addEventListener('keyup', searchFunction);
